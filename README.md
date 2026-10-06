@@ -1,4 +1,4 @@
-# SocketCalculator
+# SocketsCalculator
 
 Para la comunicación entre cliente y servidor se ha decidido usar un socket TCP, más concretamente se ha usado el *ThreadingTCPServer* para 
 para poder atender a varias conexiones concurrentemente mediante un hilo por conexión. Se ha elegido TCP frente a UDP porque el servicio necesita intercambiar peticiones y respuestas de forma fiable y ordenada. TCP incorpora mecanismos internos de detección de perdidas, retransmisión, etc... los cuales evitan 
