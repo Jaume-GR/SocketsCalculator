@@ -39,8 +39,7 @@ El identificador de cada petición viene dada por la conjunción de:
 - Un identificador interno del servidor que etiqueta numéricamente a cada proceso nuevo que llega
 
 ### LOG
-El servidor registra en un historial de los diferentes sucesos ocurridos durante todo el ciclo, cada registro viene con el identificador
-de petición al inicio y precedido por una etiqueta con el tipo de registro. Los tipos presentes son los siguientes:
+El servidor registra en un archivo junto al script un historial de los diferentes sucesos ocurridos durante todo el ciclo, cada registro viene con el identificador de petición al inicio y precedido por una etiqueta con el tipo de registro. Los tipos presentes son los siguientes:
 
 **[INFO]**:
   - **SERVSTART**: Inicialización del servidor.
