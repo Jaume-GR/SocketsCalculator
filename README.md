@@ -23,7 +23,7 @@ esto es principalmente para generar tanto peticiones correctas que devolverán e
 Los mensajes se envían codificados en JSON y usan el fin de línea ```/n``` para indicar la terminación.
 
 Para identificar el flujo de datos entre clientes y servidor en el lado del cliente, se ha identificado cada petición en consola mediante los
-términos "PREG" y "RESP" junto al número de cliente al cual referencian.
+términos *"PREG"* y *"RESP"* junto al número de cliente al cual referencian.
 
 ## Server.py
 El servidor se ejecuta mediante un *ThreadingTCPServer* el cual permite atender a múltiples peticiones sin provocar bloqueos ni esperas.
