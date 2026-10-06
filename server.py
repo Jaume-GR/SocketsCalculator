@@ -1,3 +1,10 @@
+"""
+Servidor TCP
+
+Recibe peticiones JSON y devuelve resultados o errores.
+Registra conexiones, peticiones, bytes y tiempos de respuesta.
+"""
+
 import logging as log
 import socketserver
 import statistics
@@ -6,10 +13,6 @@ import math
 import json
 import time
 
-# Doc: https://docs.python.org/3/library/socketserver.html
-
-
-# The server that receives data from the client
 from datetime import datetime
 
 metlock = threading.Lock()
@@ -41,7 +44,7 @@ instructions = { # op : [argmin, argmax]
  }
 operations = list(instructions.keys())
 
-class DateHandler(socketserver.StreamRequestHandler): # changes
+class DateHandler(socketserver.StreamRequestHandler):
     def handle(self):
         ip, port = self.client_address
         client_id = f"{ip}:{port}"
@@ -49,13 +52,9 @@ class DateHandler(socketserver.StreamRequestHandler): # changes
         with metlock: metrics["active_connections"] += 1
         log.info(" CONNSTART ID:%s [activas=%d]", client_id, metrics["active_connections"])
 
-        # welcome = "Bienvenido al servidor calculadora\n".encode("utf-8")
-        # self.request.sendall(welcome)
-        # with metlock: metrics["bytes_tx"] += len(welcome)
-
         try:
             while True:
-                data = self.rfile.readline() # data = self.request.recv(1024)
+                data = self.rfile.readline()
                 print("Datos recibidos:", repr(data))
                 if not data: return
 
@@ -77,7 +76,7 @@ class DateHandler(socketserver.StreamRequestHandler): # changes
                 respuesta = {"ok": ok, "result" if ok else "error" : arg if ok else f"Error: {arg}"}
 
                 encodedResponse = (json.dumps(respuesta) + "\n").encode("utf-8")
-                self.request.sendall(encodedResponse) # self.request.sendall(resultat)
+                self.request.sendall(encodedResponse)
                 with metlock: metrics["bytes_tx"] += len(encodedResponse)
 
                 elapsed_ms = (time.perf_counter() - start) * 1000
@@ -118,17 +117,11 @@ def command_processor(data):
     if op == "std"  : return (True, statistics.pstdev(numeros)) # Desviación poblacional
     
 
-# A socket connection has a "file" syntax 
-with socketserver.ThreadingTCPServer(('', 5088), DateHandler) as server: # localhost:5088˙
+with socketserver.ThreadingTCPServer(('', 5088), DateHandler) as server: # localhost:5088
     print("El servidor calculadora está funcionando...")
     try:
+        log.info(" SERVSTART Server started.")
         server.serve_forever()
     except KeyboardInterrupt:
         print("\nServidor calculadora detenido.\n")
-        log.info(" SERVSTP   Server stopped.")
-
-# The client 
-## in our case, the client can be the OS 
-
-# using netcat or nc commands:
-# echo hola | nc localhost 5088
+        log.info(" SERVSTOP  Server stopped.")

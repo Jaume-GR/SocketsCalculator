@@ -1,4 +1,10 @@
-# Client side TCP
+"""
+Experimento Clientes TCP
+
+Lanza múltiples clientes TCP.
+Genera y envía peticiones JSON al servidor e
+imprime el resultado de cada una
+"""
 import threading
 import socket
 import random
